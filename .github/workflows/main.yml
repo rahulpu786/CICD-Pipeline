@@ -17,7 +17,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./CICD-Pipeline/Envoirnment/prepod
+        working-directory: ./Envoirnment/prepod
 
     steps:
 

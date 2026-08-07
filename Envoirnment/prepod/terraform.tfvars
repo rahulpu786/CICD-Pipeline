@@ -9,7 +9,7 @@ vnets = {
   vnet1 = {
     name                = "vm-vnet"
     location            = "centralindia"
-    resource_group_name = "vm-rg"
+    resource_group_name = "rg-vm"
     address_space       = ["10.100.0.0/16"]
   }
 }
@@ -17,14 +17,14 @@ vnets = {
 subnets = {
   subnet1 = {
     name                 = "vm-frontend-subnet"
-    resource_group_name  = "vm-rg"
+    resource_group_name  = "rg-vm"
     virtual_network_name = "vm-vnet"
     address_prefixes     = ["10.100.1.0/24"]
 
   }
   subnet2 = {
     name                 = "vm-backend-subnet"
-    resource_group_name  = "vm-rg"
+    resource_group_name  = "rg-vm"
     virtual_network_name = "vm-vnet"
     address_prefixes     = ["10.100.2.0/24"]
 
@@ -34,13 +34,13 @@ subnets = {
 pips = {
   pip1 = {
     name                = "vm-frontend-pip"
-    resource_group_name = "vm-rg"
+    resource_group_name = "rg-vm"
     location            = "centralindia"
     allocation_method   = "Static"
   }
   pip2 = {
     name                = "vm-backend-pip"
-    resource_group_name = "vm-rg"
+    resource_group_name = "rg-vm"
     location            = "centralindia"
     allocation_method   = "Static"
   }
@@ -49,7 +49,7 @@ pips = {
 vms = {
   vm1 = {
     nic_name             = "vm-frontend-nic"
-    rg_name              = "vm-rg"
+    rg_name              = "rg-vm"
     location             = "centralindia"
     vm_name              = "vm-frontend"
     vm_size              = "Standard_D2s_v3"
@@ -63,7 +63,7 @@ vms = {
   }
   vm2 = {
     nic_name             = "vm-backend-nic"
-    rg_name              = "vm-rg"
+    rg_name              = "rg-vm"
     location             = "centralindia"
     vm_name              = "vm-backend"
     vm_size              = "Standard_D2s_v3"

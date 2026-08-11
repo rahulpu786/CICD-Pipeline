@@ -41,17 +41,21 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: Envoirnment/prepod
 
       - name: Terraform Validate
         run: terraform validate
+        working-directory: Envoirnment/prepod
 
       - name: Terraform Plan
         run: terraform plan
+        working-directory: Envoirnment/prepod
 
 
   terraform-apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
+  
 
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
@@ -78,6 +82,8 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: Envoirnment/prepod
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        working-directory: Envoirnment/prepod

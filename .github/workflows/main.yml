@@ -1,48 +1,89 @@
-name: Terraform Azure Deployment
+name: Terraform Azure
 
 on:
+  pull_request:
+    branches:
+      - main
+
   push:
     branches:
       - main
+
 permissions:
-  id-token: write
   contents: read
-      
+
 
 jobs:
 
-  terraform:
-
+  terraform-plan:
+    name: Terraform Plan
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./Envoirnment/prepod
+    if: github.event_name == 'pull_request'
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: |
+             {
+               "clientId": "ae5f66ae-5dc9-4b9b-9c25-b1f3684492ef",
+                "clientSecret": "0na8Q~OmDjSgD6mRhSHtPY~51whKy0UHEN-u~bXj",
+                "subscriptionId": "f2dc6b00-339e-4bbb-8625-7ff34e04e886",
+                "tenantId": "2d4d34e6-bb8b-444c-b15b-c522d3cce28a"
+             }
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
-    - name: Azure Login
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+      - name: Terraform Init
+        run: terraform init
+        working-directory: Envoirnment/prepod
 
-    - name: Terraform Init
-      run: terraform init
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: Envoirnment/prepod
 
-    - name: Terraform Validate
-      run: terraform validate
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: Envoirnment/prepod
 
-    - name: Terraform Plan
-      run: terraform plan
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
+  terraform-apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+  
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: |
+             {
+               "clientId": "ae5f66ae-5dc9-4b9b-9c25-b1f3684492ef",
+                "clientSecret": "0na8Q~OmDjSgD6mRhSHtPY~51whKy0UHEN-u~bXj",
+                "subscriptionId": "f2dc6b00-339e-4bbb-8625-7ff34e04e886",
+                "tenantId": "2d4d34e6-bb8b-444c-b15b-c522d3cce28a"
+             }
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: Envoirnment/prepod
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: Envoirnment/prepod

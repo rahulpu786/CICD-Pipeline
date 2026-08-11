@@ -12,11 +12,6 @@ on:
 permissions:
   contents: read
 
-env:
-  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
 jobs:
 
@@ -33,10 +28,13 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          creds: |
+             {
+               "clientId": "ae5f66ae-5dc9-4b9b-9c25-b1f3684492ef",
+                "clientSecret": "0na8Q~OmDjSgD6mRhSHtPY~51whKy0UHEN-u~bXj",
+                "subscriptionId": "f2dc6b00-339e-4bbb-8625-7ff34e04e886",
+                "tenantId": "2d4d34e6-bb8b-444c-b15b-c522d3cce28a"
+             }
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -67,10 +65,13 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          creds: |
+             {
+               "clientId": "ae5f66ae-5dc9-4b9b-9c25-b1f3684492ef",
+                "clientSecret": "0na8Q~OmDjSgD6mRhSHtPY~51whKy0UHEN-u~bXj",
+                "subscriptionId": "f2dc6b00-339e-4bbb-8625-7ff34e04e886",
+                "tenantId": "2d4d34e6-bb8b-444c-b15b-c522d3cce28a"
+             }
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
